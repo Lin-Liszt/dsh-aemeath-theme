@@ -1,0 +1,8 @@
+# Build output (the release tarball is uploaded to GitHub Releases, not committed)
+dist/
+node_modules/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.log

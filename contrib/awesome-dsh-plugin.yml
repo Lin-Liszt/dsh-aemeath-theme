@@ -1,0 +1,16 @@
+# Catalog entry for https://github.com/awesome-dsh-plugin/awesome-dsh-plugin
+#
+# Put this one file at `data/plugins/<owner>__dsh-aemeath-theme.yml` in a PR to that
+# repository — that PR is the whole submission. `category: theme` is what makes the
+# entry land in dsh-market's Themes tab.
+url: https://github.com/Lin-Liszt/dsh-aemeath-theme
+name: Lin-Liszt/dsh-aemeath-theme
+category: theme
+description:
+  en: A Wuthering Waves Aemeath theme for DSH with a pixel window frame, a holographic portrait card, a 4K splash, four video backdrops and a starlight pink and cyan skin.
+  zh: 《鸣潮》爱弥斯主题：像素窗框、全息立绘卡、4K 开屏、四段视频背景与星辉粉紫皮肤。
+# GitHub-hosted raster, drawn at ~96px; omit to fall back to the owner's avatar.
+icon: https://raw.githubusercontent.com/Lin-Liszt/dsh-aemeath-theme/main/icon.png
+# Prebuilt asset on GitHub Releases — must stay an https .tgz on GitHub hosting.
+# The file name carries no version so `latest/download/` never rots after a release.
+tarball: https://github.com/Lin-Liszt/dsh-aemeath-theme/releases/latest/download/dsh-aemeath-theme.tgz

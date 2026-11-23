@@ -1,0 +1,48 @@
+{
+  "name": "dsh-aemeath-theme",
+  "version": "1.8.2",
+  "type": "module",
+  "description": "Aemeath (Wuthering Waves) terminal theme for DSH: pixel window frame, holographic portrait card, 4K splash, starlight backdrop and a pink/cyan UI skin.",
+  "license": "CC-BY-NC-4.0",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.png"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.png",
+    "assets/*",
+    "README.md",
+    "NOTICE.md",
+    "LICENSE",
+    "CREDITS.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.2-rc.1 <0.3.0"
+  },
+  "author": "Evelyn",
+  "contributors": [
+    {
+      "name": "EITAOT",
+      "url": "https://github.com/EITAOT/dsh-yeermu-theme",
+      "comment": "original dsh-yeermu-theme this fork is based on"
+    }
+  ]
+}
