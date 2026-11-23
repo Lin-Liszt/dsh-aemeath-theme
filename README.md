@@ -1,8 +1,8 @@
 # 爱弥斯 · 星辉终端（dsh-aemeath-theme）
 
-《鸣潮》爱弥斯主题的 DeepSeek Harness 插件：像素窗框、全息立绘卡、4K 开屏、四段视频背景，以及一整套星辉粉紫 UI。
+《鸣潮》爱弥斯主题的 DeepSeek Harness 插件：像素窗框、全息立绘卡、4K 开屏、五段视频背景，以及一整套星辉粉紫 UI。
 
-An unofficial, non-commercial fan theme for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) — pixel window frame, holographic portrait card, 4K splash, four looping video backdrops and a starlight pink/cyan skin. Forked from [EITAOT/dsh-yeermu-theme](https://github.com/EITAOT/dsh-yeermu-theme).
+An unofficial, non-commercial fan theme for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) — pixel window frame, holographic portrait card, 4K splash, five looping video backdrops and a starlight pink/cyan skin. Forked from [EITAOT/dsh-yeermu-theme](https://github.com/EITAOT/dsh-yeermu-theme).
 
 ## 装之前
 

@@ -29,6 +29,7 @@ const SCENES = [
   ['/aemeath-theme/bg-2.mp4', path.join(PACKAGE_ROOT, 'assets', 'bg-2.mp4')],
   ['/aemeath-theme/bg-3.mp4', path.join(PACKAGE_ROOT, 'assets', 'bg-3.mp4')],
   ['/aemeath-theme/bg-4.mp4', path.join(PACKAGE_ROOT, 'assets', 'bg-4.mp4')],
+  ['/aemeath-theme/bg-5.mp4', path.join(PACKAGE_ROOT, 'assets', 'bg-5.mp4')],
   /* Boot animation: the 4K flower-field clip. */
   ['/aemeath-theme/boot.mp4', path.join(PACKAGE_ROOT, 'assets', 'boot.mp4')],
 ];
