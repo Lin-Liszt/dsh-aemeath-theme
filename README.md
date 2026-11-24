@@ -57,10 +57,10 @@ Host 侧路由（`index.js`）：`/aemeath-theme/{bg-1..4.mp4,boot.mp4,pixel-fon
 
 - 角色、世界观、台词与官方美术 © 库洛游戏（Kuro Games）
 - 背景视频来自 Wallpaper Engine 创意工坊（应用 431960），原作者保留全部权利：
-  - 开屏动画 / 背景「花海 1」——[3810012844](https://steamcommunity.com/sharedfiles/filedetails/?id=3810012844)「Floral Reverie【爱弥斯 4K】」，工坊作者（页面未标注名称）
-  - 背景「花海 2」——[3810017580](https://steamcommunity.com/sharedfiles/filedetails/?id=3810017580)「Floral Reverie【爱弥斯 4K】（2）」，工坊作者（页面未标注名称）
+  - 开屏动画 / 背景「花海 1」——[3810012844](https://steamcommunity.com/sharedfiles/filedetails/?id=3810012844)「Floral Reverie【爱弥斯 4K】」，**B站 @炑月烟火**
+  - 背景「花海 2」——[3810017580](https://steamcommunity.com/sharedfiles/filedetails/?id=3810017580)「Floral Reverie【爱弥斯 4K】（2）」，**B站 @炑月烟火**
   - 背景「Springtide」——[3819066914](https://steamcommunity.com/sharedfiles/filedetails/?id=3819066914)「爱弥斯｜Springtide 4k」，**B站 @炑月烟火**
-  - 背景「Spring Reverie」——[3810145619](https://steamcommunity.com/sharedfiles/filedetails/?id=3810145619)「Spring Reverie【爱弥斯 4K】」，工坊作者（页面未标注名称）
+  - 背景「Spring Reverie」——[3810145619](https://steamcommunity.com/sharedfiles/filedetails/?id=3810145619)「Spring Reverie【爱弥斯 4K】」，**B站 @炑月烟火**
 - 逐条溯源、联系方式与下架说明见 [CREDITS.md](CREDITS.md)
 - 本插件代码与样式：Fork 自 [EITAOT](https://github.com/EITAOT/dsh-yeermu-theme) 的曳尔沐主题，由 Evelyn 改造
 - 许可：[CC BY-NC 4.0](LICENSE) —— **禁止任何商业使用**
