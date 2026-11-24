@@ -183,6 +183,53 @@ function parseRange(header, size) {
   return { start, end: Math.min(end, size - 1) };
 }
 
+/* ------------------------------------------------------------------ *
+ * Same-origin gate: loopback is not an access control
+ * ------------------------------------------------------------------ */
+
+/**
+ * Reject a request that a browser sends on behalf of a page other than this app.
+ *
+ * The routes below only listen on the loopback interface, but any page open in the user's
+ * browser can still reach that interface: media tags need no CORS preflight, and plain GETs are
+ * fired even when the response cannot be read. Chromium names the initiator in `Sec-Fetch-Site`,
+ * and scripted cross-origin calls carry an `Origin` header; both are checked here.
+ *
+ * Missing headers mean a non-browser client (curl, node) or a direct navigation — allowed, since
+ * reaching loopback already requires local access. `null` Origin (sandboxed iframe, file page) is
+ * never this app and is rejected.
+ *
+ * @param {import('node:http').IncomingMessage} req request.
+ * @returns {boolean} true when the request must not reach a route.
+ */
+function isCrossOrigin(req) {
+  const site = String(req.headers['sec-fetch-site'] || '').toLowerCase();
+  if (site === 'cross-site') return true;
+  const host = String(req.headers.host || '').toLowerCase();
+  const origin = req.headers.origin;
+  if (!origin) return false;
+  if (String(origin).toLowerCase() === 'null') return true;
+  try {
+    return !host || new URL(String(origin)).host.toLowerCase() !== host;
+  } catch {
+    return true;
+  }
+}
+
+/**
+ * Wrap a route handler with the same-origin gate above.
+ * @param {(req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => unknown} handler route body.
+ * @returns {(req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => unknown} gated handler.
+ */
+function guardOrigin(handler) {
+  return (req, res) => {
+    if (!isCrossOrigin(req)) return handler(req, res);
+    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+    res.end(JSON.stringify({ ok: false, reason: 'cross-origin request rejected' }));
+    return undefined;
+  };
+}
+
 /**
  * Stream the clip, honouring Range and caching validators so the element can seek and loop.
  * @param {import('node:http').IncomingMessage} req request.
@@ -556,7 +603,7 @@ function personaPrompt() {
  * `node -e "import('.../index.js').then(m => m.sampleSystem())"` can verify the host half
  * without restarting DSH.
  */
-export { personaBody, personaPrompt, personaState };
+export { isCrossOrigin, personaBody, personaPrompt, personaState };
 
 /* ------------------------------------------------------------------ *
  * Preset: `assets/preset.json`, the author's look, baked in at build time
@@ -652,9 +699,15 @@ export function apply(ctx) {
   /* The backdrop route is optional infrastructure: wait for it instead of blocking apply. */
   ctx.inject(['webServer'], (child) => {
     child.effect(() => {
+      /*
+       * Every route is registered through this one helper, so the same-origin gate cannot be
+       * forgotten on a route added later.
+       */
+      const register = (spec) =>
+        child.webServer.register(Object.assign({}, spec, { handler: guardOrigin(spec.handler) }));
       /** One route per scene, so the client only has to swap the <video> source. */
       const sceneDisposers = SCENES.map(([route, file]) =>
-    child.webServer.register({
+        register({
           kind: 'exact',
           path: route,
           handler: (req, res) => {
@@ -673,7 +726,7 @@ export function apply(ctx) {
         }),
       );
       /* Balance: the built-in deepseekAccount service. */
-      const disposeBalance = child.webServer.register({
+      const disposeBalance = register({
         kind: 'exact',
         path: BALANCE_ROUTE,
         handler: async (req, res) => {
@@ -747,7 +800,7 @@ export function apply(ctx) {
           user: found.user || {},
         };
       };
-      const disposeAcp = child.webServer.register({
+      const disposeAcp = register({
         kind: 'exact',
         path: ACP_ROUTE,
         handler: (req, res) => {
@@ -807,7 +860,7 @@ export function apply(ctx) {
         },
       });
 
-      const disposeFont = child.webServer.register({
+      const disposeFont = register({
         kind: 'exact',
         path: FONT_ROUTE,
         handler: (req, res) => {
@@ -839,7 +892,7 @@ export function apply(ctx) {
        * it. The route itself is dumb — it serialises the newest snapshot.
        */
       const sampler = createSampler();
-      const disposeMetrics = child.webServer.register({
+      const disposeMetrics = register({
         kind: 'exact',
         path: METRICS_ROUTE,
         handler: (req, res) => {
@@ -858,7 +911,7 @@ export function apply(ctx) {
        * Weather: serve the cache, refresh in the background once it is stale. The very first call
        * waits for one pull so the tile never starts out empty.
        */
-      const disposeWeather = child.webServer.register({
+      const disposeWeather = register({
         kind: 'exact',
         path: WEATHER_ROUTE,
         handler: async (req, res) => {
@@ -884,7 +937,7 @@ export function apply(ctx) {
        * workspace: the card reaches the model as a system-prompt section, so the switch applies to
        * every session and cannot collide with a user-written `AGENTS.local.md`.
        */
-      const disposePersona = child.webServer.register({
+      const disposePersona = register({
         kind: 'exact',
         path: PERSONA_ROUTE,
         handler: (req, res) => {
@@ -920,7 +973,7 @@ export function apply(ctx) {
         },
       });
       /* Open the editable card (and stop) — a second route keeps the persona sync path pure. */
-      const disposeOpenCard = child.webServer.register({
+      const disposeOpenCard = register({
         kind: 'exact',
         path: CARD_ROUTE,
         handler: (req, res) => {
@@ -941,7 +994,7 @@ export function apply(ctx) {
        * shipped preset is compiled into `client.js`. On a published install the package directory
        * is read-only, so a POST here fails with 500 by design.
        */
-      const disposePrefs = child.webServer.register({
+      const disposePrefs = register({
         kind: 'exact',
         path: PREF_ROUTE,
         handler: (req, res) => {
